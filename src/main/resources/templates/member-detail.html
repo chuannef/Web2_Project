@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${member.name} + ' - ' + ${teamName}">Member Name - Team Name</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 th:text="${teamName}">Team Name</h1>
+            <h2>Member Profile</h2>
+        </header>
+        
+        <main class="content">
+            <div class="member-detail">
+                <div class="member-header">
+                    <img class="member-image" th:src="${member.imageUrl}" alt="Member Photo">
+                    <div class="member-info">
+                        <h1 class="member-name" th:text="${member.name}">Member Name</h1>
+                        <h2 class="member-role" th:text="${member.role}">Role</h2>
+                        <p th:if="${member.leader}" class="leader-badge">Team Leader</p>
+                    </div>
+                </div>
+                
+                <div class="member-bio">
+                    <p th:text="${member.bio}">Bio information goes here.</p>
+                </div>
+                
+                <div class="member-skills">
+                    <h3 class="skills-title">Kỹ năng:</h3>
+                    <div class="skills-list">
+                        <span class="skill-tag" th:each="skill : ${#strings.arraySplit(member.skills, ', ')}" 
+                              th:text="${skill}">Skill</span>
+                    </div>
+                </div>
+                
+                <a href="/" class="back-button">← Quay lại trang chính</a>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p th:text="'© ' + ${currentYear} + ' ' + ${teamName} + '. All rights reserved.'">
+                © 2023 Team Name. All rights reserved.
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

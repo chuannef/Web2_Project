@@ -16,21 +16,51 @@
         </header>
         
         <main class="content">
-            <div class="iframe-container">
-                <iframe width="150" height="200" src="https://www.myinstants.com/instant/oh-my-god-bro-oh-hell-nah-man-42939/embed/" frameborder="0" scrolling="no"></iframe>
-            </div>
-            
             <section class="team-members">
                 <h3 class="team-title" th:text="'Thành viên nhóm ' + ${teamName} + ':'">Thành viên nhóm:</h3>
                 <ul class="team-list">
                     <li th:each="member : ${teamMembers}" 
-                        th:class="${member.leader} ? 'team-leader' : ''">
+                        th:class="${member.leader} ? 'team-leader member-item' : 'member-item'"
+                        th:attr="data-member-id=${member.id}">
                         <span th:text="${member.name}">Member Name</span>
                         <span th:if="${member.leader}" th:text="'(' + ${member.role} + ')'"></span>
                     </li>
                 </ul>
             </section>
         </main>
+        
+        <footer class="footer">
+            <p th:text="'© ' + ${currentYear} + ' ' + ${teamName} + '. All rights reserved.'">
+                © 2023 Team Name. All rights reserved.
+            </p>
+        </footer>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, setting up click handlers');
+            
+            // Get all member items
+            const memberItems = document.querySelectorAll('.team-list li');
+            console.log('Found ' + memberItems.length + ' member items');
+            
+            // Add click event listeners
+            memberItems.forEach(function(item) {
+                item.addEventListener('click', function() {
+                    const memberId = this.getAttribute('data-member-id');
+                    console.log('Clicked member with ID: ' + memberId);
+                    
+                    if (memberId) {
+                        window.location.href = '/member/' + memberId;
+                    } else {
+                        console.error('No member ID found on clicked element');
+                    }
+                });
+                
+                // Enhance the visual indication that items are clickable
+                item.style.cursor = 'pointer';
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,14 +1,36 @@
 
-<iframe width="110" height="200" src="https://www.myinstants.com/instant/oh-my-god-bro-oh-hell-nah-man-42939/embed/" frameborder="0" scrolling="no"></iframe>
-
-
-Thành viên nhóm: 
-    <br>
-    Võ Đức Chính
-    <br>
-    <i>Hoàng Văn Chuẩn (Nhóm trưởng)</i>
-    <br>
-    Trần Lê Hữu Quốc
-    <br>
-    Nguyễn Đức Vũ
-    <br>
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${teamName}">Team Name</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 th:text="${teamName}">Team Name</h1>
+            <h2>Project Team</h2>
+        </header>
+        
+        <main class="content">
+            <div class="iframe-container">
+                <iframe width="150" height="200" src="https://www.myinstants.com/instant/oh-my-god-bro-oh-hell-nah-man-42939/embed/" frameborder="0" scrolling="no"></iframe>
+            </div>
+            
+            <section class="team-members">
+                <h3 class="team-title" th:text="'Thành viên nhóm ' + ${teamName} + ':'">Thành viên nhóm:</h3>
+                <ul class="team-list">
+                    <li th:each="member : ${teamMembers}" 
+                        th:class="${member.leader} ? 'team-leader' : ''">
+                        <span th:text="${member.name}">Member Name</span>
+                        <span th:if="${member.leader}" th:text="'(' + ${member.role} + ')'"></span>
+                    </li>
+                </ul>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

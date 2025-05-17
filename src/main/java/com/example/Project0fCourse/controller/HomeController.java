@@ -17,8 +17,8 @@ public class HomeController {
 
     private final List<TeamMember> teamMembers = Arrays.asList(
         new TeamMember(
-            "vo-duc-chinh", 
-            "Võ Đức Chính - 99562", 
+            "99562", 
+            "Võ Đức Chính", 
             false, 
             "Developer", 
             "Chuyên gia front-end với niềm đam mê thiết kế UI/UX trực quan và thân thiện với người dùng.",
@@ -26,8 +26,8 @@ public class HomeController {
             "/images/9.jpg"
         ),
         new TeamMember(
-            "hoang-van-chuan", 
-            "Hoàng Văn Chuẩn -100618", 
+            "100618", 
+            "Hoàng Văn Chuẩn", 
             true, 
             "Nhóm trưởng", 
             "Nhóm trưởng với kinh nghiệm quản lý dự án và phối hợp làm việc nhóm hiệu quả.",
@@ -35,8 +35,8 @@ public class HomeController {
             "/images/x.jpg"
         ),
         new TeamMember(
-            "tran-le-huu-quoc", 
-            "Trần Lê Hữu Quốc -100672", 
+            "100672", 
+            "Trần Lê Hữu Quốc", 
             false, 
             "Backend Developer", 
             "Chuyên gia backend với khả năng xây dựng API và tối ưu hóa cơ sở dữ liệu.",
@@ -44,8 +44,8 @@ public class HomeController {
             "/images/member3.jpg"
         ),
         new TeamMember(
-            "nguyen-duc-vu", 
-            "Nguyễn Đức Vũ -99550", 
+            "99550", 
+            "Nguyễn Đức Vũ", 
             false, 
             "Full-stack Developer", 
             "Developer đa năng với kinh nghiệm trên nhiều công nghệ khác nhau.",
@@ -66,22 +66,22 @@ public class HomeController {
         model.addAttribute("teamMembers", teamMembers);
         model.addAttribute("teamName", "404 Brain Not Found");
         model.addAttribute("currentYear", java.time.Year.now().getValue());
-        
+
         return "index";
     }
 
     @GetMapping("/member/{id}")
     public String memberDetail(@PathVariable String id, Model model) {
         TeamMember member = teamMemberMap.get(id);
-        
+
         if (member == null) {
             return "redirect:/";
         }
-        
+
         model.addAttribute("member", member);
         model.addAttribute("teamName", "404 Brain Not Found");
         model.addAttribute("currentYear", java.time.Year.now().getValue());
-        
+
         return "member-detail";
     }
 }

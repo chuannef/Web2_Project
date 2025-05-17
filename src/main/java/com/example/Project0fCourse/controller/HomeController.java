@@ -41,7 +41,7 @@ public class HomeController {
             "Backend Developer", 
             "Chuyên gia backend với khả năng xây dựng API và tối ưu hóa cơ sở dữ liệu.",
             "Java, Spring Boot, MySQL, MongoDB", 
-            "/images/member3.jpg"
+            "/images/huuquoc.jpg"
         ),
         new TeamMember(
             "nguyen-duc-vu", 

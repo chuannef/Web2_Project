@@ -2,9 +2,11 @@ package com.example.Project0fCourse.model;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.UUID;
+// import javax.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Getter
 @Setter

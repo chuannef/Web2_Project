@@ -21,8 +21,8 @@ public class UserController {
         this.repository = repository;
     }
 
-    // Hiển thị danh sách người dùng (GET /)
-    @GetMapping("/")
+    // Hiển thị danh sách người dùng (GET /users)
+    @GetMapping("/users")
     public String getUsersController(Model model) {
         List<User> users = repository.findAll();
         model.addAttribute("users", users);
@@ -34,37 +34,18 @@ public class UserController {
     @GetMapping("/add")
     public String addUser(Model model) {
         model.addAttribute("user", new User());
-        /* Example form.html
-         *<form th:action="@{/save}" th:object="${user}" method="post">
-         *    <div>
-         *        <label for="id">ID:</label>
-         *        <input type="text" id="id" th:field="*{id}" />
-         *    </div>
-         *    <div>
-         *        <label for="name">Name:</label>
-         *        <input type="text" id="name" th:field="*{name}" />
-         *    </div>
-         *    <div>
-         *        <label for="email">Email:</label>
-         *        <input type="email" id="email" th:field="*{email}" />
-         *    </div>
-         *    <div>
-         *        <button type="submit">Save User</button>
-         *    </div>
-         *</form>
-         */
-        return "form";
+        return "add_user";
     }
 
     @PostMapping("/save")
     public String saveUser(@ModelAttribute("user") User user) {
+        // ID là kiểu Long nên chỉ cần kiểm tra null
         if (user.getId() == null) {
-            // randomUUID return about 16 bytes while long type can only hold 8 bytes
-            // getMostSignificantBits return 8 bytes, so it fits.
-            user.setId(UUID.randomUUID().getMostSignificantBits());
+            // Không set ID, để JPA tự động tạo
+            // Database sẽ tự động tạo ID theo chiến lược GenerationType.IDENTITY
         }
         repository.save(user);
-        return "redirect:/";
+        return "redirect:/users";
     }
 }
 

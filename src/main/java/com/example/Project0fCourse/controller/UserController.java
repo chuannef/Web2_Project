@@ -8,15 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
@@ -63,8 +58,10 @@ public class UserController {
 
     @PostMapping("/save")
     public String saveUser(@ModelAttribute("user") User user) {
-        if (user.getId() == null || user.getId().isEmpty()) {
-            user.setId(UUID.randomUUID().toString());
+        if (user.getId() == null) {
+            // randomUUID return about 16 bytes while long type can only hold 8 bytes
+            // getMostSignificantBits return 8 bytes, so it fits.
+            user.setId(UUID.randomUUID().getMostSignificantBits());
         }
         repository.save(user);
         return "redirect:/";

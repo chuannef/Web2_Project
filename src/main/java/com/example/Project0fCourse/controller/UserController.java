@@ -27,7 +27,7 @@ public class UserController {
         List<User> users = repository.findAll();
         model.addAttribute("users", users);
 
-        return "user"; // user.html
+        return "index"; // index.html
     }
 
     // Hiển thị form thêm người dùng (GET /add)

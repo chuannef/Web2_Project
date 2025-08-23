@@ -1,76 +1,28 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sửa thông tin người dùng</title>
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f5f5f5;
-            padding: 20px;
-        }
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #4a89dc;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-        label {
-            margin: 10px 0 5px;
-            font-weight: 500;
-        }
-        input {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .btn {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #4a89dc;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-        .btn:hover {
-            background-color: #3d7acc;
-        }
-        .back-link {
-            display: inline-block;
-            margin-top: 15px;
-            color: #4a89dc;
-            text-decoration: none;
-        }
-    </style>
+    <title>Edit User</title>
 </head>
 <body>
-<div class="container">
-    <h1>Sửa thông tin người dùng</h1>
+    <h1>Edit User Information</h1>
+    
     <form th:action="@{'/update/' + ${user.id}}" method="post" th:object="${user}">
-        <label for="name">Tên</label>
-        <input type="text" id="name" th:field="*{name}" placeholder="Nhập tên" required>
+        <p>
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" th:field="*{name}" required size="40" />
+        </p>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" th:field="*{email}" placeholder="Nhập email" required>
+        <p>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" th:field="*{email}" required size="40" />
+        </p>
 
-        <button type="submit" class="btn">Lưu</button>
+        <p>
+            <input type="submit" value="Update" />
+            <a href="/">[Back to List]</a>
+        </p>
     </form>
-
-    <a th:href="@{/}" class="back-link">Quay lại danh sách</a>
-</div>
 </body>
 </html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Information</title>
+</head>
+<body>
+    <h1 th:text="${company.id != null} ? 'Edit Company' : 'Add New Company'"></h1>
+    
+    <form th:action="@{/companies/save}" th:object="${company}" method="post">
+        <input type="hidden" th:field="*{id}" />
+
+        <p>
+            <label for="companyName">Company Name:</label><br>
+            <input type="text" id="companyName" th:field="*{companyName}" required size="50" />
+        </p>
+
+        <p>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" th:field="*{email}" size="50" />
+        </p>
+
+        <p>
+            <label for="address">Address:</label><br>
+            <input type="text" id="address" th:field="*{address}" size="50" />
+        </p>
+
+        <p>
+            <label for="phoneNumber">Phone:</label><br>
+            <input type="text" id="phoneNumber" th:field="*{phoneNumber}" size="50" />
+        </p>
+
+        <p>
+            <label for="website">Website:</label><br>
+            <input type="url" id="website" th:field="*{website}" size="50" />
+        </p>
+
+        <div th:if="${company.employees != null and !company.employees.empty}">
+            <h2>Employees</h2>
+            <div th:each="employee, iterStat : *{employees}">
+                <fieldset>
+                    <legend th:text="'Employee ' + (${iterStat.index} + 1)"></legend>
+                    <input type="hidden" th:field="*{employees[__${iterStat.index}__].id}" />
+                    
+                    <p>
+                        <label th:for="'employee-name-' + ${iterStat.index}">Name:</label><br>
+                        <input type="text" th:id="'employee-name-' + ${iterStat.index}" 
+                               th:field="*{employees[__${iterStat.index}__].name}" size="40" />
+                    </p>
+                    
+                    <p>
+                        <label th:for="'employee-email-' + ${iterStat.index}">Email:</label><br>
+                        <input type="email" th:id="'employee-email-' + ${iterStat.index}" 
+                               th:field="*{employees[__${iterStat.index}__].email}" size="40" />
+                    </p>
+                </fieldset>
+            </div>
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+            <a href="/companies">[Cancel]</a>
+            <span th:if="${company.id != null}">
+                <a th:href="@{'/companies/' + ${company.id} + '/employees'}">[Manage Employees]</a>
+            </span>
+        </p>
+    </form>
+</body>
+</html>

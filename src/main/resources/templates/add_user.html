@@ -1,84 +1,28 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Thêm Người Dùng</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 40px;
-      background-color: #f4f4f4;
-    }
-
-    .form-container {
-      background: white;
-      padding: 20px;
-      max-width: 400px;
-      margin: auto;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    input[type="text"], input[type="email"] {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0 16px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    button, .btn {
-      background-color: #007BFF;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      margin-right: 10px;
-    }
-
-    .btn-secondary {
-      background-color: #6c757d;
-    }
-
-    button:hover, .btn:hover {
-      background-color: #0056b3;
-    }
-
-    .btn-secondary:hover {
-      background-color: #5a6268;
-    }
-
-    h2 {
-      text-align: center;
-    }
-
-    .actions {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
 </head>
 <body>
+    <h1>Add New User</h1>
+    
+    <form th:action="@{/save}" th:object="${user}" method="post">
+        <p>
+            <label for="name">Full Name:</label><br>
+            <input type="text" id="name" th:field="*{name}" required size="40" />
+        </p>
 
-<div class="form-container">
-  <h2>Thêm Người Dùng</h2>
-  <form th:action="@{/save}" th:object="${user}" method="post">
-    <label for="name">Họ và Tên:</label>
-    <input type="text" id="name" th:field="*{name}" required>
+        <p>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" th:field="*{email}" required size="40" />
+        </p>
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" th:field="*{email}" required>
-
-    <div class="actions">
-      <a th:href="@{/users}" class="btn btn-secondary">Quay lại</a>
-      <button type="submit">Lưu</button>
-    </div>
-  </form>
-</div>
-
+        <p>
+            <input type="submit" value="Save" />
+            <a href="/users">[Back to List]</a>
+        </p>
+    </form>
 </body>
 </html>

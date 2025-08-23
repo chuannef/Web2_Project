@@ -67,7 +67,7 @@ public class HomeController {
         model.addAttribute("teamName", "404 Brain Not Found");
         model.addAttribute("currentYear", java.time.Year.now().getValue());
 
-        return "index";
+        return "redirect:/users";
     }
 
     @GetMapping("/member/{id}")

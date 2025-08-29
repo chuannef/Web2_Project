@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Employees</title>
+</head>
+<body>
+    <h1>Manage Employees</h1>
+    <h2 th:text="'Company: ' + ${company.companyName}"></h2>
+
+    <h3>Add New Employee</h3>
+    <form th:action="@{'/companies/' + ${company.id} + '/employees/add'}" 
+          method="post">
+        
+        <p>
+            <label for="employeeName">Employee Name:</label><br>
+            <input type="text" id="employeeName" name="name" required size="40" />
+        </p>
+
+        <p>
+            <label for="employeeEmail">Employee Email:</label><br>
+            <input type="email" id="employeeEmail" name="email" required size="40" />
+        </p>
+
+        <p>
+            <input type="submit" value="Add Employee" />
+        </p>
+    </form>
+
+    <hr>
+
+    <h3>Current Employees</h3>
+    <div th:if="${employees != null and !employees.empty}">
+        <table border="1" cellpadding="5" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="employee : ${employees}">
+                    <td th:text="${employee.id}"></td>
+                    <td th:text="${employee.name}"></td>
+                    <td th:text="${employee.email}"></td>
+                    <td>
+                        <form th:action="@{'/companies/employees/' + ${employee.id} + '/delete'}" 
+                              method="post" style="display: inline;">
+                            <input type="hidden" name="companyId" th:value="${company.id}" />
+                            <input type="submit" value="Delete" 
+                                   onclick="return confirm('Are you sure you want to delete this employee?')" />
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div th:if="${employees == null or employees.empty}">
+        <p><em>No employees found for this company.</em></p>
+    </div>
+
+    <hr>
+
+    <p>
+        <a th:href="@{'/companies/edit/' + ${company.id}}">[Back to Company]</a>
+        <a href="/companies">[Company List]</a>
+    </p>
+</body>
+</html>

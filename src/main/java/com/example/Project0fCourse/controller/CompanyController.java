@@ -4,6 +4,8 @@ import com.example.Project0fCourse.model.Company;
 import com.example.Project0fCourse.model.User;
 import com.example.Project0fCourse.service.CompanyService;
 import com.example.Project0fCourse.service.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 
 import java.util.ArrayList;
 
@@ -23,6 +25,7 @@ public class CompanyController {
         this.userService = userService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public String listCompanies(Model model) {
         model.addAttribute("companies", companyService.getAllCompanies());
@@ -30,6 +33,7 @@ public class CompanyController {
                                //
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/add")
     public String addCompanyForm(Model model) {
         Company company = new Company();
@@ -38,6 +42,7 @@ public class CompanyController {
         return "company_form";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/edit/{id}")
     public String editCompany(@PathVariable Long id, Model model) {
         Company company = companyService.findById(id);
@@ -48,6 +53,7 @@ public class CompanyController {
         return "company_form";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}/employees")
     public String manageEmployees(@PathVariable Long id, Model model) {
         Company company = companyService.findById(id);
@@ -58,6 +64,7 @@ public class CompanyController {
         return "manage_employees";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{id}/employees/add")
     public String addEmployee(@PathVariable Long id, 
                              @RequestParam("name") String name,
@@ -74,12 +81,14 @@ public class CompanyController {
         return "redirect:/companies/" + id + "/employees";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/employees/{employeeId}/delete")
     public String deleteEmployee(@PathVariable Long employeeId, @RequestParam Long companyId) {
         userService.deleteById(employeeId);
         return "redirect:/companies/" + companyId + "/employees";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/save")
     public String saveCompany(@ModelAttribute Company company) {
         // ensure relationship is set
@@ -91,7 +100,7 @@ public class CompanyController {
         companyService.save(company);
         return "redirect:/companies";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/delete/{id}")
     public String deleteCompany(@PathVariable Long id) {
         companyService.deleteById(id);

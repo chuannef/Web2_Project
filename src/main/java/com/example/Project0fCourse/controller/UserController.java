@@ -5,6 +5,7 @@ import com.example.Project0fCourse.repository.UserRepository;
 import com.example.Project0fCourse.service.UserService;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +27,7 @@ public class UserController {
     }
 
     // Hiển thị danh sách người dùng (GET /users)
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/users")
     public String getUsersController(Model model) {
         List<User> users = repository.findAll();
@@ -35,12 +37,14 @@ public class UserController {
     }
 
     // Hiển thị form thêm người dùng (GET /add)
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/add")
     public String addUser(Model model) {
         model.addAttribute("user", new User());
         return "add_user";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/edit/{id}")
     public String editUser(@PathVariable Long id, Model model) {
         User user = repository.findById(id)
@@ -48,29 +52,29 @@ public class UserController {
         model.addAttribute(user);
         return "edit_user";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/update/{id}")
     public String updateUser(@PathVariable Long id, @ModelAttribute User user) {
         userService.update(id, user);
         return "redirect:/users";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public String removeUser(@PathVariable Long id) {
         userService.deleteById(id);
         return "redirect:/users";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/save")
-    public String saveUser(@ModelAttribute("user") User user) {
-        // ID là kiểu Long nên chỉ cần kiểm tra null
-        if (user.getId() == null) {
-            // Không set ID, để JPA tự động tạo
-            // Database sẽ tự động tạo ID theo chiến lược GenerationType.IDENTITY
-        }
-        repository.save(user);
-        return "redirect:/users";
+public String saveUser(@ModelAttribute("user") User user) {
+    if (user.getId() == null) {
+        // JPA sẽ tự tạo ID
     }
+    repository.save(user);
+    return "redirect:/users";
+}
+
 
     @GetMapping("/login")
     public String loginPage() {

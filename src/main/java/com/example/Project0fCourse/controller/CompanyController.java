@@ -66,7 +66,7 @@ public class CompanyController {
         
         // Create a new User object
         User newEmployee = new User();
-        newEmployee.setName(name);
+        newEmployee.setUsername(name);
         newEmployee.setEmail(email);
         newEmployee.setCompany(company);
         

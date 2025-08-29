@@ -71,4 +71,9 @@ public class UserController {
         repository.save(user);
         return "redirect:/users";
     }
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
+    }
 }

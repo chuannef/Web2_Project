@@ -83,7 +83,6 @@ public class UserController {
             if (user.getRoles() == null) {
                 user.setRoles(new HashSet<>());
             }
-            System.out.println(Role.valueOf(role.toUpperCase()));
             user.getRoles().add(Role.valueOf(role.toUpperCase()));
             userService.save(user);
             return "redirect:/login";

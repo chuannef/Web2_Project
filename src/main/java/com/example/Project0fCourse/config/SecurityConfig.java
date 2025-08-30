@@ -39,13 +39,13 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(AbstractHttpConfigurer::disable)
+        return http.csrf(AbstractHttpConfigurer::disable).headers().frameOptions().disable().and()
                 .authorizeHttpRequests(
                         (requests) -> requests
                                 // .requestMatchers("/profile").hasAnyAuthority("ROLE_ADMIN", "ROLE_MEMBER",
-                                .requestMatchers("/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/", "/register", "/assets/**", "/images/**", "/login")
-                                .permitAll()
+                                .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                                .requestMatchers("/", "/register", "/assets/**", "/images/**", "/login").permitAll()
+                                .requestMatchers("/h2-console/**").permitAll()
                                 .anyRequest()
                                 .authenticated())
                 .exceptionHandling(exception -> exception.accessDeniedPage("/access-denied"))
@@ -56,7 +56,7 @@ public class SecurityConfig {
                             public void onAuthenticationSuccess(HttpServletRequest request,
                                     HttpServletResponse response, Authentication authentication)
                                     throws IOException, ServletException {
-                                    response.sendRedirect("/users");
+                                response.sendRedirect("/users");
                             }
                         })
                         .failureUrl("/login?error=true")

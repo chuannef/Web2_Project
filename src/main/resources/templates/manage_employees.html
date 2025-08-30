@@ -12,7 +12,6 @@
     <h3>Add New Employee</h3>
     <form th:action="@{'/companies/' + ${company.id} + '/employees/add'}" 
           method="post">
-        
         <p>
             <label for="employeeName">Employee Name:</label><br>
             <input type="text" id="employeeName" name="name" required size="40" />

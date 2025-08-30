@@ -42,9 +42,10 @@ public class User {
     @JoinColumn(name = "company_id") // foreign key column
     Company company;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.EAGER) // Seperate this to a new table
+    // Store them in a table named 'user_roles' and link it back with a 'user_id' column
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) // Specify this enum is STRING, otherwise it uses integer type
     Set<Role> roles = new HashSet<>();
 }

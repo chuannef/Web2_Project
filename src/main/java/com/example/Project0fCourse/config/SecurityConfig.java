@@ -22,11 +22,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
 
 @Configuration
 @EnableWebSecurity
@@ -48,7 +50,15 @@ public class SecurityConfig {
                                 .authenticated())
                 .exceptionHandling(exception -> exception.accessDeniedPage("/access-denied"))
                 .formLogin((form) -> form.loginPage("/login")
-                        .defaultSuccessUrl("/")
+                        .defaultSuccessUrl("/users")
+                        .successHandler(new AuthenticationSuccessHandler() {
+                            @Override
+                            public void onAuthenticationSuccess(HttpServletRequest request,
+                                    HttpServletResponse response, Authentication authentication)
+                                    throws IOException, ServletException {
+                                    response.sendRedirect("/users");
+                            }
+                        })
                         .failureUrl("/login?error=true")
                         .failureHandler(authenticationFailureHander())
                         .permitAll())
@@ -78,7 +88,6 @@ public class SecurityConfig {
                         URLEncoder.encode(errorMessage, StandardCharsets.UTF_8);
                 setDefaultFailureUrl(redirectUrl);
                 super.onAuthenticationFailure(request, response, exception);
-
             }
         };
     }

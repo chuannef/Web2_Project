@@ -10,8 +10,8 @@
     
     <form th:action="@{'/update/' + ${user.id}}" method="post" th:object="${user}">
         <p>
-            <label for="name">Name:</label><br>
-            <input type="text" id="name" th:field="*{name}" required size="40" />
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" th:field="*{username}" required size="40" />
         </p>
 
         <p>

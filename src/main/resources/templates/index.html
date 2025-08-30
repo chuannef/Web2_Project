@@ -116,8 +116,15 @@
 <body>
     <div class="container">
         <header class="header">
-            <h1>Quản lý người dùng</h1>
-            <p>Hệ thống quản lý thông tin người dùng</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>Quản lý người dùng</h1>
+                    <p>Hệ thống quản lý thông tin người dùng</p>
+                </div>
+                <form th:action="@{/logout}" method="post" style="margin: 0;">
+                    <button type="submit" class="btn btn-primary" style="background-color: #dc3545; border-color: #dc3545;">Đăng xuất</button>
+                </form>
+            </div>
         </header>
         
         <main class="content">
@@ -141,7 +148,7 @@
                 <tbody>
                     <tr th:each="user : ${users}">
                         <td th:text="${user.id}">ID</td>
-                        <td th:text="${user.name}">Tên người dùng</td>
+                        <td th:text="${user.username}">Tên người dùng</td>
                         <td th:text="${user.email}">email@example.com</td>
                         <td>
                             <a th:href="@{'/edit/' + ${user.id}}" class="btn">Sửa</a>

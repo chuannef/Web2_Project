@@ -84,4 +84,10 @@ public class HomeController {
 
         return "member-detail";
     }
+
+    @GetMapping("/admin")
+    public String adminPage() {
+        return "admin";
+    }
+
 }

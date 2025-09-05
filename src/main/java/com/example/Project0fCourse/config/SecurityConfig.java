@@ -44,7 +44,7 @@ public class SecurityConfig {
                         (requests) -> requests
                                 // .requestMatchers("/profile").hasAnyAuthority("ROLE_ADMIN", "ROLE_MEMBER",
                                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
-                                .requestMatchers("/", "/register", "/assets/**", "/images/**", "/login").permitAll()
+                                .requestMatchers("/", "/register", "/assets/**", "/images/**", "/login", "/api/**").permitAll()
                                 .requestMatchers("/h2-console/**").permitAll()
                                 .anyRequest()
                                 .authenticated())

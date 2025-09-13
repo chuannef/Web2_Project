@@ -52,19 +52,27 @@ public class UserRestPoint {
 
     @PostMapping("/users")
     User newUser(@RequestBody User user) {
+        if (user.getPassword() != null && !user.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         return userRepository.save(user);
     }
 
     @PutMapping("/users/{id}")
-    Optional<User> replaceUser(@RequestBody User newUser, @PathVariable Long id) {
+    User replaceUser(@RequestBody User newUser, @PathVariable Long id) {
         return userRepository.findById(id).map(user -> {
             user.setEmail(newUser.getEmail());
             user.setUsername(newUser.getUsername());
             user.setRoles(newUser.getRoles());
             user.setCompany(newUser.getCompany());
-            user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+            if (newUser.getPassword() != null && !newUser.getPassword().isBlank()) {
+                user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+            }
             return userRepository.save(user);
         }).orElseGet(() -> {
+            if (newUser.getPassword() != null && !newUser.getPassword().isBlank()) {
+                newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+            }
             return userRepository.save(newUser);
         });
     }

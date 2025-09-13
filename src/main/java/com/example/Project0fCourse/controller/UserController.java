@@ -1,6 +1,5 @@
 package com.example.Project0fCourse.controller;
 
-import com.example.Project0fCourse.model.Role;
 import com.example.Project0fCourse.model.User;
 import com.example.Project0fCourse.repository.UserRepository;
 import com.example.Project0fCourse.service.UserService;
@@ -9,16 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.HashSet;
 
 @Controller
 public class UserController {
@@ -26,8 +22,7 @@ public class UserController {
     private final UserService userService;
     private final org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
-    public UserController(UserRepository repository, UserService userService,
-            org.springframework.security.crypto.password.PasswordEncoder passwordEncoder) {
+    public UserController(UserRepository repository, UserService userService, org.springframework.security.crypto.password.PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
@@ -59,14 +54,12 @@ public class UserController {
         model.addAttribute(user);
         return "edit_user";
     }
-
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/update/{id}")
     public String updateUser(@PathVariable Long id, @ModelAttribute User user) {
         userService.update(id, user);
         return "redirect:/users";
     }
-
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public String removeUser(@PathVariable Long id) {
@@ -74,49 +67,29 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @PostMapping("/register")
-    public String handleRegisterUser(@ModelAttribute User user, BindingResult result, @RequestParam("role") String role) {
-        if (result.hasErrors()) {
-            return "register";
-        } else {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            if (user.getRoles() == null) {
-                user.setRoles(new HashSet<>());
-            }
-            user.getRoles().add(Role.valueOf(role.toUpperCase()));
-            userService.save(user);
-            return "redirect:/login";
-        }
-    }
-
-    @GetMapping("/register")
-    public String registerUser(Model model) {
-        model.addAttribute("user", new User());
-        return "register";
-    }
-
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/save")
-    public String saveUser(@ModelAttribute("user") User user) {
-        if (user.getId() == null) {
-            // JPA sẽ tự tạo ID
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            if (user.getRoles() == null || user.getRoles().isEmpty()) {
-                java.util.HashSet<com.example.Project0fCourse.model.Role> defaultRoles = new java.util.HashSet<>();
-                defaultRoles.add(com.example.Project0fCourse.model.Role.USER);
-                user.setRoles(defaultRoles);
-            }
-            repository.save(user);
-            org.springframework.ui.ModelMap model = new org.springframework.ui.ModelMap();
-            model.addAttribute("success", "Đăng ký thành công!");
-            model.addAttribute("user", new com.example.Project0fCourse.model.User());
-            return "add_user";
-        } else {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            repository.save(user);
-            return "redirect:/users";
+public String saveUser(@ModelAttribute("user") User user) {
+    if (user.getId() == null) {
+        // JPA sẽ tự tạo ID
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+            java.util.HashSet<com.example.Project0fCourse.model.Role> defaultRoles = new java.util.HashSet<>();
+            defaultRoles.add(com.example.Project0fCourse.model.Role.USER);
+            user.setRoles(defaultRoles);
         }
+        repository.save(user);
+        org.springframework.ui.ModelMap model = new org.springframework.ui.ModelMap();
+        model.addAttribute("success", "Đăng ký thành công!");
+        model.addAttribute("user", new com.example.Project0fCourse.model.User());
+        return "add_user";
+    } else {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        repository.save(user);
+        return "redirect:/users";
     }
+}
+
 
     @GetMapping("/login")
     public String loginPage() {

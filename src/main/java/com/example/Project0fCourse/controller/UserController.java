@@ -20,12 +20,10 @@ import java.util.List;
 public class UserController {
     private final UserRepository repository;
     private final UserService userService;
-    private final org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
-    public UserController(UserRepository repository, UserService userService, org.springframework.security.crypto.password.PasswordEncoder passwordEncoder) {
+    public UserController(UserRepository repository, UserService userService) {
         this.repository = repository;
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     // Hiển thị danh sách người dùng (GET /users)
@@ -72,22 +70,9 @@ public class UserController {
 public String saveUser(@ModelAttribute("user") User user) {
     if (user.getId() == null) {
         // JPA sẽ tự tạo ID
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if (user.getRoles() == null || user.getRoles().isEmpty()) {
-            java.util.HashSet<com.example.Project0fCourse.model.Role> defaultRoles = new java.util.HashSet<>();
-            defaultRoles.add(com.example.Project0fCourse.model.Role.USER);
-            user.setRoles(defaultRoles);
-        }
-        repository.save(user);
-        org.springframework.ui.ModelMap model = new org.springframework.ui.ModelMap();
-        model.addAttribute("success", "Đăng ký thành công!");
-        model.addAttribute("user", new com.example.Project0fCourse.model.User());
-        return "add_user";
-    } else {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        repository.save(user);
-        return "redirect:/users";
     }
+    repository.save(user);
+    return "redirect:/users";
 }
 
 

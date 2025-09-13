@@ -1,33 +1,171 @@
+<!doctype html>
+<html lang="en">
 
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <meta charset="utf-8" />
+    <title>Letter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        :root {
+            --paper-bg: #fff;
+            --ink: #222;
+            --muted: #666;
+            --accent: #0b5fff;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            background: #f2f4f8;
+            color: var(--ink);
+            font: 16px/1.6 "Georgia", "Times New Roman", serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding: 2rem 1rem;
+        }
+
+        /* Paper card */
+        .page {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--paper-bg);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .12);
+            overflow: hidden;
+            border: 1px solid #e6e9ef;
+        }
+
+        /* Letter layout */
+        .letter {
+            padding: 48px 56px;
+        }
+
+        .letter-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 28px;
+            border-bottom: 2px solid #e9edf5;
+            padding-bottom: 18px;
+        }
+
+        .from {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        .date {
+            text-align: right;
+            color: var(--muted);
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .salutation {
+            font-size: 20px;
+            margin: 28px 0 16px;
+        }
+
+        .recipient {
+            display: inline-block;
+            padding-bottom: 4px;
+            border-bottom: 3px double #cfd6e6;
+            font-weight: 600;
+            letter-spacing: .2px;
+        }
+
+        .content p {
+            margin: 0 0 16px;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        .signature {
+            margin-top: 28px;
+        }
+
+        .sign-name {
+            margin-top: 40px;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: .3px;
+        }
+
+        .sign-title {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* A subtle decorative initial */
+        .content p:first-child::first-letter {
+            float: left;
+            font-size: 46px;
+            line-height: 38px;
+            padding-right: 10px;
+            padding-top: 6px;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Print styles (A4-ish) */
+        @media print {
+            body {
+                background: #fff;
+                padding: 0
+            }
+
+            .page {
+                max-width: none;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            .letter {
+                padding: 28mm 22mm;
+            }
+        }
+
+    </style>
 </head>
+
 <body>
-    <h2>Login</h2>
-    <form th:action="@{/login}" method="post">
-        <div>
-            <label>Username:</label>
-            <input type="text" name="username" required />
-        </div>
-        <div>
-            <label>Password:</label>
-            <input type="password" name="password" required />
-        </div>
-        <div>
-            <button type="submit">Login</button>
-        </div>
-        <div>
-            <a th:href="@{/register}">Register</a>
-        </div>
-        <div th:if="${param.error}">
-            <p style="color:red">Invalid username or password.</p>
-        </div>
-        <div th:if="${param.logout}">
-            <p style="color:green">You have been logged out.</p>
-        </div>
-    </form>
+    <main class="page">
+        <section class="letter">
+            <header class="letter-header">
+                <div class="from">
+                    <strong>From:</strong><br>
+                    Nồi Cơm Điện<br>
+                    ahihi@google.com
+                </div>
+                <div class="date">
+                    August 29, 2025
+                </div>
+            </header>
+
+            <h1 class="salutation">Dear <span class="recipient">Chuan, Quoc, Vu</span>,</h1>
+
+            <div class="content">
+                <p>
+                    Fuck you!
+                </p>
+            </div>
+
+            <div class="signature">
+                <div class="sign-name">Nồi Cơm Điện</div>
+                <div class="sign-title">Tác giả</div>
+            </div>
+        </section>
+    </main>
 </body>
+
 </html>

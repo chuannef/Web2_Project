@@ -33,10 +33,6 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-        public User findByUsername(String username) {
-            return userRepository.findByUsername(username).orElse(null);
-        }
-
     public User update(Long id, User updatedUser) {
         return userRepository.findById(id)
                 .map(user -> {
